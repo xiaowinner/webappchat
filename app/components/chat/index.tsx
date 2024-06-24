@@ -15,6 +15,8 @@ import Toast from '@/app/components/base/toast'
 import ChatImageUploader from '@/app/components/base/image-uploader/chat-image-uploader'
 import ImageList from '@/app/components/base/image-uploader/image-list'
 import { useImageFiles } from '@/app/components/base/image-uploader/hooks'
+import useLive2D from '@/hooks/useLive2d'
+
 
 export type IChatProps = {
   chatList: ChatItem[]
@@ -69,6 +71,8 @@ const Chat: FC<IChatProps> = ({
     return true
   }
 
+  useLive2D()
+
   useEffect(() => {
     if (controlClearQuery)
       setQuery('')
@@ -121,6 +125,7 @@ const Chat: FC<IChatProps> = ({
     <div className={cn(!feedbackDisabled && 'px-3.5', 'h-full')}>
       {/* Chat List */}
       <div className="h-full space-y-[30px]">
+        <canvas className="live-2d-canvas" id="can"></canvas>
         {chatList.map((item) => {
           if (item.isAnswer) {
             const isLast = item.id === chatList[chatList.length - 1].id
@@ -182,6 +187,7 @@ const Chat: FC<IChatProps> = ({
                 autoSize
               />
               <div className="absolute bottom-2 right-2 flex items-center h-8">
+                <div>{123}</div>
                 <div className={`${s.count} mr-4 h-5 leading-5 text-sm bg-gray-50 text-gray-500`}>{query.trim().length}</div>
                 <Tooltip
                   selector='send-tip'
